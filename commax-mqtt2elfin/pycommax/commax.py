@@ -2,6 +2,7 @@ import paho.mqtt.client as mqtt
 import json
 import time
 import asyncio
+import re
 from selenium import webdriver
 
 share_dir = '/share'
@@ -193,8 +194,12 @@ def do_work(config, device_list):
             log('[LOG] HA ->> : {} -> {}'.format('/'.join(topics), value))
 
         if device in DEVICE_LISTS:
+            regex = re.compile("(\D+)(\d+)")
+            matchobj = regex.search(topics[1])
             key = topics[1] + topics[2]
-            idx = int(topics[1][-1])
+            device = matchobj.group(1)
+            idx = int(matchobj.group(2))
+            
             cur_state = HOMESTATE.get(key)
             value = 'ON' if value == 'heat' else value.upper()
             if cur_state:
