@@ -371,7 +371,7 @@ def do_work(config, device_list):
         else:
             try:
                 speed_list = ['low', 'medium', 'high']
-                onoff = speed_list[int(onoff) - 1]
+                onoff = speed_list[int(onoff)]
                 state = 'speed'
             except:
                 return
